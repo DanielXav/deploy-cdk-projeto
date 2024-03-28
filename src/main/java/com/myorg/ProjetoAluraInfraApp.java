@@ -13,6 +13,10 @@ public class ProjetoAluraInfraApp {
         VpcStack vpcStack = new VpcStack(app, "Vpc");
         ClusterStack clusterStack = new ClusterStack(app, "Cluster", vpcStack.getVpc());
         clusterStack.addDependency(vpcStack); // Cluster precisa que a VPC esteja criada primeiramente
+
+        AluraRdsStack rdsStack = new AluraRdsStack(app, id: "Rds", vpcStack.getVpc());
+        rdsStack.addDependency(vpcStack);
+
         ServiceStack serviceStack = new ServiceStack(app, "Service", clusterStack.getCluster());
         serviceStack.addDependency(clusterStack);
         app.synth();
